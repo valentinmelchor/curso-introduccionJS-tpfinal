@@ -1,0 +1,37 @@
+body {
+    background-color: hsl(0deg, 0%, 8%);
+    overflow-x: hidden;
+}
+
+p {
+    width: min(65ch, 100% - 4rem);
+    color: white;
+    margin-inline: auto;
+    margin-block: 1.65rem;
+}
+
+.banner {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+    pointer-events: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+header {
+    position: fixed !important;
+    transition: all 0.3s;
+}
+
+@media (aspect-ratio < 1) {
+    header {
+        position: sticky !important;
+        backdrop-filter: none !important;
+        background-color: black !important;
+    }
+}

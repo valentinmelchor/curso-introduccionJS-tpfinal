@@ -1,0 +1,109 @@
+:root {
+    --paragraph-width: 45ch;
+    --border-radius: 16px;
+    --glassBorder-padding: 2px;
+    --highlightPosition: ellipse at top right;
+    --shadowPosY: 1em;
+    --shadowPosX: 0em;
+    --glassHighlightGradient: radial-gradient(var(--highlightPosition), rgb(255, 255, 255, 25%), transparent);
+}
+
+body {
+    background-image: url(../img/background.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden;
+}
+
+header {
+    box-shadow: 0em 0.3em 2em rgb(0, 0, 0, 75%) !important;
+    position: fixed !important;
+}
+
+.signup {
+    display: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+.glass {
+    background-image: var(--glassHighlightGradient);
+    backdrop-filter: blur(1.5rem);
+    background-clip: padding-box;
+}
+
+.panel {
+    height: auto;
+    width: min(var(--paragraph-width), 100% - 4rem);
+    border-radius: var(--border-radius);
+    border: 2px solid rgb(255, 255, 255, 10%);
+    text-shadow: 0px 1px 2px black;
+    padding: 1.6rem;
+    margin: auto;
+    margin-top: 8rem;
+    margin-bottom: 4rem;
+    box-shadow:
+        var(--shadowPosX) var(--shadowPosY) 1.6em rgb(0, 0, 0, 50%);
+}
+
+form {
+    display: grid;
+    height: 100%;
+}
+
+form>div {
+    position: relative;
+}
+
+form>div>input {
+    box-sizing: border-box;
+    padding: 1.25rem 0.75rem;
+    padding-bottom: 0.25rem;
+    font-size: 1rem;
+    margin-bottom: 1rem !important;
+    border-radius: 4px;
+    border: 1px solid gray;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 25%);
+    color: white;
+}
+
+form>div>input[type='date'] {
+    padding: 0.75rem !important;
+}
+
+label {
+    pointer-events: none;
+    color: whitesmoke;
+}
+
+select {
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.animatedLabel {
+    position: absolute;
+    transform-origin: 0 0;
+    left: 0.75rem;
+    top: 20%;
+    transition: 0.1s ease-in-out;
+    font-weight: normal;
+    text-shadow: none;
+}
+
+@media (aspect-ratio < 1),
+(aspect-ratio > 20/9),
+(max-height:799px) {
+    main {
+        margin-top: 128px;
+    }
+
+    body {
+        overflow-y: visible;
+    }
+}

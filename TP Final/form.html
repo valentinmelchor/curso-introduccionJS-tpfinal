@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Formulario</title>
+        <link rel="stylesheet" href="resources/form/css/style.css">
+        <link rel="stylesheet" href="resources/global/globalStyle.css">
+        <script src="resources/global/jquery-3.7.0.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <h1>TP Final</h1>
+                </a>
+            </div>
+            <nav>
+                <ul class="navbar">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="#">Proyectos</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="formB">
+                <a href="#" class="login"><button>Iniciar sesion</button></a>
+                <a href="form.html" class="signup"><button>Registrarse</button></a>
+            </div>
+        </header>
+        <main>
+            <div class="glass panel">
+                <form action method="get">
+                    <div>
+                        <input type="text" name="name" id="name"
+                            autocomplete="given-name">
+                        <label for="name" class="animatedLabel">Nombre</label>
+                    </div>
+                    <div>
+                        <input type="text" name="lastName" id="lastName"
+                            autocomplete="family-name">
+                        <label for="lastName" class="animatedLabel">Apellido</label>
+                    </div>
+                    <div>
+                        <input type="text" name="username" id="username"
+                            autocomplete="username">
+                        <label for="username" class="animatedLabel">Nombre de
+                            usuario</label>
+                    </div>
+                    <div>
+                        <label for="birthdate">Fecha de nacimiento</label><br>
+                        <input type="date" name="birthdate" id="birthdate"
+                            autocomplete="bday">
+                    </div>
+                    <div>
+                        <label for="country">País</label><br>
+                        <select name="country" id="country">
+                            <option value disabled selected>Seleccione un pais</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="state">Provincia/Estado</label><br>
+                        <select name="state" id="state">
+                            <option value disabled selected>Seleccione un estado</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="city">Ciudad</label><br>
+                        <select name="city" id="city">
+                            <option value disabled selected>Seleccione una
+                                ciudad</option>
+                        </select>
+                    </div>
+                    <div>
+                        <input type="email" name="email" id="email"
+                            autocomplete="email">
+                        <label for="email" class="animatedLabel">Correo
+                            electrónico</label>
+                    </div>
+                    <div>
+                        <input type="password" name="password" id="password"
+                            autocomplete="new-password">
+                        <label for="password" class="animatedLabel">Contraseña</label>
+                    </div>
+                    <div>
+                        <input type="password" name="confirmPassword"
+                            id="confirmPassword" autocomplete="new-password">
+                        <label for="confirmPassword" class="animatedLabel">
+                            Confirmar contraseña</label>
+                    </div>
+                    <button type="submit">Registrarse</button>
+                </form>
+            </div>
+        </main>
+        <footer>
+            <script src="resources/form/js/form.js"></script>
+        </footer>
+    </body>
+</html>
