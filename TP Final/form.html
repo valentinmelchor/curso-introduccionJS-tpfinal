@@ -31,63 +31,68 @@
         <main>
             <div class="glass panel">
                 <form action method="get">
-                    <div>
+                    <fieldset>
                         <input type="text" name="name" id="name"
-                            autocomplete="given-name">
+                            autocomplete="given-name" maxlength="32"
+                            pattern="[^0-9]+" required>
                         <label for="name" class="animatedLabel">Nombre</label>
-                    </div>
-                    <div>
+                    </fieldset>
+                    <fieldset>
                         <input type="text" name="lastName" id="lastName"
-                            autocomplete="family-name">
+                            autocomplete="family-name" maxlength="32" required>
                         <label for="lastName" class="animatedLabel">Apellido</label>
-                    </div>
-                    <div>
+                    </fieldset>
+                    <fieldset>
                         <input type="text" name="username" id="username"
-                            autocomplete="username">
+                            autocomplete="username"
+                            pattern="[A-Za-z0-9\-_\.]{4,16}" required>
                         <label for="username" class="animatedLabel">Nombre de
                             usuario</label>
-                    </div>
-                    <div>
+                    </fieldset>
+                    <fieldset>
                         <label for="birthdate">Fecha de nacimiento</label><br>
                         <input type="date" name="birthdate" id="birthdate"
-                            autocomplete="bday">
-                    </div>
-                    <div>
+                            min="1900-01-01" autocomplete="bday">
+                    </fieldset>
+                    <fieldset>
                         <label for="country">País</label><br>
                         <select name="country" id="country">
                             <option value disabled selected>Seleccione un pais</option>
                         </select>
-                    </div>
-                    <div>
+                    </fieldset>
+                    <fieldset>
                         <label for="state">Provincia/Estado</label><br>
                         <select name="state" id="state">
                             <option value disabled selected>Seleccione un estado</option>
                         </select>
-                    </div>
-                    <div>
+                    </fieldset>
+                    <fieldset>
                         <label for="city">Ciudad</label><br>
                         <select name="city" id="city">
                             <option value disabled selected>Seleccione una
                                 ciudad</option>
                         </select>
-                    </div>
-                    <div>
+                    </fieldset>
+                    <fieldset>
                         <input type="email" name="email" id="email"
-                            autocomplete="email">
+                            autocomplete="email" pattern="^\S+\.\S+$" required>
                         <label for="email" class="animatedLabel">Correo
                             electrónico</label>
-                    </div>
-                    <div>
+                    </fieldset>
+                    <fieldset>
                         <input type="password" name="password" id="password"
-                            autocomplete="new-password">
+                            autocomplete="new-password"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            required>
                         <label for="password" class="animatedLabel">Contraseña</label>
-                    </div>
-                    <div>
+                    </fieldset>
+                    <fieldset>
                         <input type="password" name="confirmPassword"
-                            id="confirmPassword" autocomplete="new-password">
+                            id="confirmPassword" autocomplete="new-password"
+                            required>
                         <label for="confirmPassword" class="animatedLabel">
                             Confirmar contraseña</label>
-                    </div>
+                    </fieldset>
                     <button type="submit">Registrarse</button>
                 </form>
             </div>

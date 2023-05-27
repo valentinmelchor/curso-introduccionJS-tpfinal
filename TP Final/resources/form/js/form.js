@@ -14,6 +14,7 @@ function Update() {
     glassHiglightMotion();
 }
 
+// Actualizar gradiente radial en clase 'glass'
 function glassHiglightMotion() {
     x += (xPos - x) * speed;
     y += (yPos - y) * speed;
@@ -22,14 +23,20 @@ function glassHiglightMotion() {
 }
 Update();
 
-// Animaciones formulario
-$('input').focus(function (e) {
-    $(".animatedLabel[for='" + this.id + "']").css({ 'top': "5%", 'font-size': '0.8em', 'color': 'hsl(0deg, 0%, 64%)', 'font-style': 'italic' });
+// Destacar inputs en rojo al primer submit invalido y evitar el mensaje pop-up nativo del navegador
+$('input[required]').on('invalid', function (e) {
+    $(this).addClass('failedSubmit');
+    // e.preventDefault();
 });
 
-$('input').blur(function (e) {
+// Animaciones formulario
+$('input').focus(function () {
+    $(".animatedLabel[for='" + this.id + "']").css({ 'top': "5%", 'font-size': '0.8em', 'color': 'whitesmoke', 'font-style': 'italic' });
+});
+
+$('input').blur(function () {
     if (this.value.length <= 0) {
-        $(".animatedLabel[for='" + this.id + "']").css({ 'top': '20%', 'font-size': '1em', 'color': 'whitesmoke', 'font-style': 'normal' });
+        $(".animatedLabel[for='" + this.id + "']").css({ 'top': '20%', 'font-size': '1em', 'color': 'white', 'font-style': 'normal' });
     }
 });
 

@@ -6,6 +6,10 @@
     --shadowPosY: 1em;
     --shadowPosX: 0em;
     --glassHighlightGradient: radial-gradient(var(--highlightPosition), rgb(255, 255, 255, 25%), transparent);
+    --invalidBoxShadowDispersion: 1em;
+    --invalidColor: hsl(360, 64%, 32%);
+    --usernameRequirements: 'Ingrese al menos 4 caracteres alfanuméricos y no más de 16. No puede contener símbolos especiales (Se permiten símbolos separadores).';
+    --passwordRequirements: 'Debe contener al menos un número, una letra mayúscula, letra minúscula y al menos 8 o más caracteres con un límite de 24.';
 }
 
 body {
@@ -55,35 +59,130 @@ form {
     height: 100%;
 }
 
-form>div {
+fieldset {
+    border: none;
+}
+
+form>fieldset {
     position: relative;
 }
 
-form>div>input {
-    box-sizing: border-box;
+form>fieldset>input {
     padding: 1.25rem 0.75rem;
     padding-bottom: 0.25rem;
     font-size: 1rem;
     margin-bottom: 1rem !important;
     border-radius: 4px;
-    border: 1px solid gray;
+    border: none;
+    outline: 1px solid gray;
     width: 100%;
     background-color: rgba(0, 0, 0, 25%);
     color: white;
+    transition: box-shadow 1s;
 }
 
-form>div>input[type='date'] {
+form>fieldset>input[type='date'] {
     padding: 0.75rem !important;
+}
+
+form>button[type='submit'] {
+    background-color: var(--invalidColor);
+    color: white;
+    font-weight: bold;
+    border: 2px solid rgba(255, 255, 255, 10%);
+    box-shadow: 0em 0.3em 0.3em rgba(0, 0, 0, 25%);
+    height: 2.4rem;
+    border-radius: 16px;
+    transition: all 0.3s;
+}
+
+form>button[type='submit']:hover {
+    border: 2px solid hsl(0deg, 0%, 75%);
 }
 
 label {
     pointer-events: none;
-    color: whitesmoke;
+    color: white;
+}
+
+fieldset:has(:required)>label::after {
+    content: ' (Requerido)';
+    color: gray;
+    font-size: 0.75rem;
+}
+
+fieldset:has(:required):has(.failedSubmit):invalid>label::before {
+    content: '* ';
+    color: tomato;
+    font-size: 0.75rem;
+}
+
+fieldset>input:invalid:focus,
+fieldset:has(:required):has(.failedSubmit)>input:invalid {
+    outline: 1px solid tomato;
+    box-shadow: 0em 0em var(--invalidBoxShadowDispersion) var(--invalidColor);
+    transition: all 1s;
+}
+
+fieldset:has(input[id='username']:invalid:focus)::after {
+    content: var(--usernameRequirements);
+    color: white;
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: calc(100% - 1px);
+    background-color: var(--invalidColor);
+    padding: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0em 0em var(--invalidBoxShadowDispersion) black;
+    z-index: 10;
+}
+
+fieldset:has(input[id='username']:invalid:focus)::before {
+    border-left: 0.75rem solid transparent;
+    border-right: 0.75rem solid transparent;
+    border-bottom: 0.75rem solid var(--invalidColor);
+    top: calc(100% - 0.75rem);
+    left: 1rem;
+    content: "";
+    position: absolute;
+    z-index: 11;
+}
+
+fieldset:has(input[type='password']:invalid:focus)::after {
+    content: var(--passwordRequirements);
+    color: white;
+    position: absolute;
+    left: -4px;
+    right: -4px;
+    top: calc(100% - 1px);
+    background-color: var(--invalidColor);
+    padding: 0.75rem;
+    border-radius: 8px;
+    box-shadow: 0em 0em var(--invalidBoxShadowDispersion) black;
+    z-index: 10;
+}
+
+fieldset:has(input[type='password']:invalid:focus)::before {
+    border-left: 0.75rem solid transparent;
+    border-right: 0.75rem solid transparent;
+    border-bottom: 0.75rem solid var(--invalidColor);
+    top: calc(100% - 0.75rem);
+    left: 1rem;
+    content: "";
+    position: absolute;
+    z-index: 11;
+}
+
+fieldset>input:focus {
+    box-shadow: 0em 0em var(--invalidBoxShadowDispersion) black;
+    transition: all 1s;
 }
 
 select {
     margin-bottom: 1rem;
     width: 100%;
+    border-radius: 4px;
 }
 
 .animatedLabel {
@@ -105,5 +204,11 @@ select {
 
     body {
         overflow-y: visible;
+    }
+}
+
+@media (prefers-reduced-motion) {
+    .glass {
+        background-image: none;
     }
 }
