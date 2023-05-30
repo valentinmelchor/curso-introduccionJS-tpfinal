@@ -61,16 +61,10 @@
                         </select>
                     </fieldset>
                     <fieldset>
-                        <label for="state">Provincia/Estado</label><br>
+                        <label for="state">Provincia</label><br>
                         <select name="state" id="state">
-                            <option value disabled selected>Seleccione un estado</option>
-                        </select>
-                    </fieldset>
-                    <fieldset>
-                        <label for="city">Ciudad</label><br>
-                        <select name="city" id="city">
                             <option value disabled selected>Seleccione una
-                                ciudad</option>
+                                provincia</option>
                         </select>
                     </fieldset>
                     <fieldset>
@@ -82,13 +76,14 @@
                     <fieldset>
                         <input type="password" name="password" id="password"
                             autocomplete="new-password"
-                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,24}"
                             required>
                         <label for="password" class="animatedLabel">Contraseña</label>
                     </fieldset>
                     <fieldset>
                         <input type="password" name="confirmPassword"
                             id="confirmPassword" autocomplete="new-password"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,24}"
                             required>
                         <label for="confirmPassword" class="animatedLabel">
                             Confirmar contraseña</label>

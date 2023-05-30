@@ -19,7 +19,7 @@ header h1 {
 
 header {
     background-color: transparent;
-    backdrop-filter: blur(1.5rem);
+    backdrop-filter: blur(20px);
     display: flex;
     justify-content: space-between;
     flex-wrap: nowrap;
