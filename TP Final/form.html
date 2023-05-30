@@ -60,12 +60,17 @@
                             <option value disabled selected>Seleccione un pais</option>
                         </select>
                     </fieldset>
-                    <fieldset>
+                    <fieldset style="display: none;">
                         <label for="state">Provincia</label><br>
                         <select name="state" id="state">
                             <option value disabled selected>Seleccione una
                                 provincia</option>
                         </select>
+                    </fieldset>
+                    <fieldset style="display: none;">
+                        <input type="text" name="city" id="city">
+                        <label for="city" class="animatedLabel">Localidad</label><br>
+                        <ul id="cityList"></ul>
                     </fieldset>
                     <fieldset>
                         <input type="email" name="email" id="email"
