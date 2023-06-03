@@ -2,6 +2,7 @@ var rect;
 var x = 0; var y = 0; var xPos = 0; var yPos = 0;
 var speed = 0.05;
 var panel = $('.panel')[0];
+var minimumAge = 5, maximumAge = 120;
 
 // Centrar panel de formulario
 function centerPanel() {
@@ -15,7 +16,7 @@ $(document).mousemove(function (e) {
     yPos = parseInt((((e.clientY - rect.top) / rect.height) * 100));
 });
 
-// Funcion para actualizar propiedades en cada frame renderizado
+// Funcion para actualizar propiedades CSS en cada frame renderizado
 function Update() {
     centerPanel();
     rect = panel.getBoundingClientRect();
@@ -55,31 +56,46 @@ const argentinaData = (index, array) => object = { text: array[index].nombre, va
 var citySearchResult = [];
 
 function requestSettingsAPI(urlParameter, data) {
-    return { "url": urlParameter, "method": "GET", "data": data, "dataType": "json" };
+    return { "url": urlParameter, "method": "GET", "data": data, "dataType": "json", error: errorAPI };
 }
 
+function errorAPI(xhr) {
+    $('#errorModal')[0].showModal();
+    $('#errorStatus').html('Error: ' + xhr.status + '<br>' + xhr.statusText);
+}
+
+$('#closeErrorModal').on('click', function () {
+    window.location.reload();
+});
+
 // Actualizar lista de paises
-clearSelect('#country', 'Cargando lista de paises');
-console.time('Tiempo de retraso al cargar lista de paises');
 $.ajax(requestSettingsAPI(COUNTRIES_BASE_URL, { fields: 'name' })).done(function (response) {
     clearSelect('#country', 'Seleccione un pais');
     createOptions('#country', response, sortCountries, countryData);
-    console.timeEnd('Tiempo de retraso al cargar lista de paises');
 });
+// Actualizar lista de provincias
+function loadStates_Argentina() {
+    $.ajax(requestSettingsAPI(ARGENTINA_BASE_URL + 'provincias', '')).done(function (response) {
+        clearSelect('#state', 'Seleccione una provincia');
+        createOptions('#state', response.provincias, sortArgentina, argentinaData);
+    });
+}
+// Actualizar lista de localidades
+function searchCities_Argentina(search) {
+    $.ajax(requestSettingsAPI(ARGENTINA_BASE_URL + 'localidades', { provincia: $('#state').val(), nombre: search, campos: 'nombre', max: 100 })).done(function (response) {
+        clearCityList('#cityList');
+        citySearchResult = response.localidades;
+        createClickableList('#cityList', response.localidades, sortArgentina, argentinaData);
+    });
+}
 
-// Actualizar lista de provincias al recibir el pais seleccionado
 $('#country').change(function () {
     clearSelect('#state', 'Cargando lista de provincias');
-    clearList('#cityList'); citySearchResult = [];
+    clearCityList('#cityList');
     $('#cityList').val('');
-    console.time('Tiempo de retraso al cargar lista de provincias');
     if ($(this).val() == 'Argentina') {
         $('#state').closest('fieldset').show();
-        $.ajax(requestSettingsAPI(ARGENTINA_BASE_URL + 'provincias', '')).done(function (response) {
-            clearSelect('#state', 'Seleccione una provincia');
-            createOptions('#state', response.provincias, sortArgentina, argentinaData);
-            console.timeEnd('Tiempo de retraso al cargar lista de provincias');
-        });
+        loadStates_Argentina();
     } else {
         $('#state').closest('fieldset').hide();
         $('#city').closest('fieldset').hide();
@@ -92,7 +108,7 @@ $('#state').change(function () {
     } else {
         $('#city').closest('fieldset').hide();
     }
-    clearList('#cityList'); citySearchResult = [];
+    clearCityList('#cityList');
     $('#city').val('');
 });
 
@@ -100,35 +116,29 @@ var inputValue = '';
 $('#city').on('input', function () {
     inputValue = $(this).val();
     if (inputValue.length >= 4 && !$('#cityList').find('li').length > 0) {
-        console.time('Tiempo de retraso al cargar lista de ciudades');
-        $.ajax(requestSettingsAPI(ARGENTINA_BASE_URL + 'localidades', { provincia: $('#state').val(), nombre: inputValue, campos: 'nombre', max: 100 })).done(function (response) {
-            clearList('#cityList');
-            citySearchResult = response.localidades;
-            createClickableList('#cityList', response.localidades, sortArgentina, argentinaData);
-            console.timeEnd('Tiempo de retraso al cargar lista de ciudades');
-        });
+        searchCities_Argentina(inputValue);
     } else if (inputValue.length > 4 && citySearchResult.length > 0) {
-        clearList('#cityList');
-        createClickableList('#cityList', citySearchResult.filter(searchInArray), sortArgentina, argentinaData);
+        $('#cityList').empty();
+        createClickableList('#cityList', citySearchResult.filter(searchInCities), sortArgentina, argentinaData);
     } else if (!inputValue.length > 0) {
-        clearList('#cityList'); citySearchResult = [];
+        clearCityList('#cityList');
     }
 });
 
 $('fieldset>ul').on('click', function () {
     $('#city').val($('li:hover').text());
-    clearList('#cityList');
+    $('#cityList').empty();
     $('#email').focus();
 });
 
 $('#city').on('blur', function () {
     if (!$('li:hover').length > 0) {
-        clearList('#cityList');
+        $('#cityList').empty();
     }
 });
 
 // Funciones auxiliares
-function searchInArray(value) {
+function searchInCities(value) {
     return value.nombre.includes(inputValue.toLocaleUpperCase());
 }
 
@@ -153,14 +163,14 @@ function capitalizeString(string) {
 }
 
 function createClickableList(selector, array, sortFunction, filterFunction) {
-    let temp = array.sort(sortFunction);
+    array.sort(sortFunction);
     for (let i = 0; i < Math.min(array.length, 5); i++) {
         $(selector).append($('<li>').text(capitalizeString(filterFunction(i, array).text)));
     }
 }
 
 function createOptions(selector, array, sortFunction, filterFunction) {
-    let temp = array.sort(sortFunction);
+    array.sort(sortFunction);
     for (let i = 0; i < array.length; i++) {
         $(selector).append($('<option>').text(filterFunction(i, array).text).val(filterFunction(i, array).value));
     }
@@ -171,6 +181,76 @@ function clearSelect(selector, innerText) {
     $(selector).append($('<option value disabled selected>').text(innerText));
 }
 
-function clearList(selector) {
-    $(selector).empty();
+function clearCityList() {
+    $('#cityList').empty();
+    citySearchResult = [];
+}
+
+function pad(d) {
+    return (d < 10) ? '0' + d.toString() : d.toString();
+}
+
+function dateFormatAPI(data) {
+    return new Date(data.year, data.month, data.day);
+}
+
+function dateFormatString(date) {
+    return [date.getFullYear(), pad(date.getMonth() + 1), pad(date.getDate())].join('-');
+}
+
+// Time API
+const TIME_BASE_URL = 'http://worldtimeapi.org/api/';
+var currentDate;
+
+// Obtener tiempo actual por direccion IP para evitar manipulacion en el formulario (Timezone adecuada)
+$.ajax(requestSettingsAPI(TIME_BASE_URL + 'ip', '')).done(function (response) {
+    currentDate = new Date(response.unixtime * 1000);
+    $('#birthdate').attr('max', dateFormatString(currentDate));
+});
+
+// Validacion formulario
+$('form').submit(function (e) {
+    e.preventDefault();
+    if (validateName() && validateUsername() && validateBirthdate() && validateEmail() && validatePassword()) {
+        $('#errorModal')[0].showModal();
+        $('#errorStatus').text('Registro exitoso');
+        $('#closeErrorModal').text('Volver a Inicio').on('click', function () {
+            window.location.href = '../index.html';
+        });
+    } else { alert('Datos inválidos, compruebe la información introducida y vuelva a intentar nuevamente.'); }
+});
+
+$('#confirmPassword').on('input focus', function () {
+    this.setCustomValidity($(this).val() != $('#password').val() ? 'Ambos campos deben coincidir' : '');
+});
+
+function validateNameLength(name) {
+    return (name.length > 0 && name.length <= 32);
+}
+
+function validateName() {
+    let name = $('#name').val();
+    let lastName = $('#lastName').val();
+    return (validateNameLength(name) && validateNameLength(lastName) && !/\d/.test(name) && !/\d/.test(lastName));
+}
+
+function validateUsername() {
+    let username = $('#username').val();
+    return (username.length >= 4 && username.length <= 16);
+}
+
+function validateBirthdate() {
+    let inputDate = new Date($('#birthdate').val());
+    let age = currentDate.getFullYear() - inputDate.getFullYear();
+    return !(age < minimumAge || age > maximumAge);
+}
+
+function validateEmail() {
+    return (/^\S+\.\S+$/.test($('#email').val()));
+}
+
+function validatePassword() {
+    let password = $('#password').val();
+    let confirmPassword = $('#confirmPassword').val();
+    return ((confirmPassword == password) && /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(password));
 }

@@ -34,12 +34,13 @@
                     <fieldset>
                         <input type="text" name="name" id="name"
                             autocomplete="given-name" maxlength="32"
-                            pattern="[^0-9]+" required>
+                            pattern="[^\d]+" required>
                         <label for="name" class="animatedLabel">Nombre</label>
                     </fieldset>
                     <fieldset>
                         <input type="text" name="lastName" id="lastName"
-                            autocomplete="family-name" maxlength="32" required>
+                            autocomplete="family-name" pattern="[^\d]+"
+                            maxlength="32" required>
                         <label for="lastName" class="animatedLabel">Apellido</label>
                     </fieldset>
                     <fieldset>
@@ -57,7 +58,8 @@
                     <fieldset>
                         <label for="country">País</label><br>
                         <select name="country" id="country">
-                            <option value disabled selected>Seleccione un pais</option>
+                            <option value disabled selected>Cargando lista de
+                                países</option>
                         </select>
                     </fieldset>
                     <fieldset style="display: none;">
@@ -97,6 +99,10 @@
                 </form>
             </div>
         </main>
+        <dialog data-modal id="errorModal">
+            <p id="errorStatus">Por favor intente nuevamente mas tarde</p>
+            <button type="button" data-close-modal id="closeErrorModal">Reintentar</button>
+        </dialog>
         <footer>
             <script src="resources/form/js/form.js"></script>
         </footer>

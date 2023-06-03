@@ -1,7 +1,7 @@
 :root {
     --paragraph-width: 45ch;
     --panelOffset: 8rem;
-    --border-radius: 16px;
+    --border-radius: 24px;
     --glassBorder-padding: 2px;
     --highlightPosition: ellipse at top right;
     --shadowPosY: 1em;
@@ -11,14 +11,14 @@
     --invalidColor: hsl(360, 64%, 32%);
     --usernameRequirements: 'Ingrese al menos 4 caracteres alfanuméricos y no más de 16. No puede contener símbolos especiales (Se permiten símbolos separadores).';
     --passwordRequirements: 'Debe contener al menos un número, una letra mayúscula, letra minúscula y al menos 8 o más caracteres con un límite de 24.';
+    --confirmPasswordRequirements: 'Ambos campos deben coincidir.';
 }
 
 body {
     background-image: url(../img/background.jpg);
     background-attachment: fixed;
     background-size: cover;
-    background-position: center;
-    overflow: hidden;
+    background-position: center center;
 }
 
 header {
@@ -30,12 +30,9 @@ header {
     display: none;
 }
 
-a {
-    text-decoration: none;
-}
-
 .glass {
     background-image: var(--glassHighlightGradient);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     background-clip: padding-box;
 }
@@ -49,7 +46,7 @@ a {
     padding: 1.6rem;
     margin: auto;
     margin-top: var(--panelOffset);
-    transition: margin-top 0.3s;
+    transition: margin-top 0.25s;
     box-shadow:
         var(--shadowPosX) var(--shadowPosY) var(--boxShadowDispersion) rgba(0, 0, 0, 50%);
 }
@@ -59,12 +56,9 @@ form {
     height: 100%;
 }
 
-fieldset {
-    border: none;
-}
-
 form>fieldset {
     position: relative;
+    border: none;
 }
 
 form>fieldset>input {
@@ -85,7 +79,8 @@ form>fieldset>input[type='date'] {
     padding: 0.75rem !important;
 }
 
-form>button[type='submit'] {
+button[type='submit'],
+#closeErrorModal {
     background-color: var(--invalidColor);
     color: white;
     font-weight: bold;
@@ -96,7 +91,8 @@ form>button[type='submit'] {
     transition: all 0.3s;
 }
 
-form>button[type='submit']:hover {
+button[type='submit']:hover,
+#closeErrorModal:hover {
     border: 2px solid hsl(0deg, 0%, 75%);
 }
 
@@ -119,7 +115,8 @@ fieldset:has(:required):has(.failedSubmit)>input:invalid {
     transition: all 1s;
 }
 
-fieldset:has(input[id='username']:invalid:focus)::after {
+fieldset:has(input[id='username']:invalid:focus)::after,
+fieldset:has(input[type='password']:invalid:focus)::after {
     content: var(--usernameRequirements);
     color: white;
     position: absolute;
@@ -133,7 +130,16 @@ fieldset:has(input[id='username']:invalid:focus)::after {
     z-index: 10;
 }
 
-fieldset:has(input[id='username']:invalid:focus)::before {
+fieldset:has(input[type='password']:invalid:focus)::after {
+    content: var(--passwordRequirements) !important;
+}
+
+fieldset:has(#confirmPassword:invalid:focus)::after {
+    content: var(--confirmPasswordRequirements) !important;
+}
+
+fieldset:has(input[id='username']:invalid:focus)::before,
+fieldset:has(input[type='password']:invalid:focus)::before {
     border-left: 0.75rem solid transparent;
     border-right: 0.75rem solid transparent;
     border-bottom: 0.75rem solid var(--invalidColor);
@@ -174,29 +180,9 @@ fieldset>ul>li:hover {
     cursor: pointer;
 }
 
-fieldset:has(input[type='password']:invalid:focus)::after {
-    content: var(--passwordRequirements);
-    color: white;
-    position: absolute;
-    left: -4px;
-    right: -4px;
-    top: calc(100% - 1px);
-    background-color: var(--invalidColor);
-    padding: 0.75rem;
-    border-radius: 8px;
-    box-shadow: 0em 0em var(--boxShadowDispersion) black;
-    z-index: 10;
-}
 
-fieldset:has(input[type='password']:invalid:focus)::before {
-    border-left: 0.75rem solid transparent;
-    border-right: 0.75rem solid transparent;
-    border-bottom: 0.75rem solid var(--invalidColor);
-    top: calc(100% - 0.75rem);
-    left: 1rem;
-    content: "";
-    position: absolute;
-    z-index: 11;
+.highlightSearch {
+    color: white;
 }
 
 fieldset>input:focus {
@@ -215,12 +201,37 @@ select {
 
 .animatedLabel {
     position: absolute;
-    transform-origin: 0 0;
     left: 0.75rem;
     top: 20%;
     transition: 0.1s ease-in-out;
-    font-weight: normal;
     text-shadow: none;
+}
+
+dialog {
+    min-width: 24ch;
+    max-width: 50ch;
+    padding: 1rem;
+    height: 8rem;
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    text-align: center;
+    border-radius: calc(var(--border-radius) / 2);
+    overflow: hidden;
+    z-index: 32;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 32%);
+}
+
+dialog>button {
+    width: 50%;
+    height: 4ch;
+    position: fixed;
+    bottom: 1rem;
+    left: 25%;
+    cursor: pointer;
 }
 
 @media (max-height: 880px) {

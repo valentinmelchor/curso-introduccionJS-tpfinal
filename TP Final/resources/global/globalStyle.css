@@ -11,6 +11,10 @@ html {
     padding: 0;
 }
 
+a {
+    text-decoration: none;
+}
+
 header h1 {
     font-family: 'Roboto Slab', serif, system-ui;
     color: white;
