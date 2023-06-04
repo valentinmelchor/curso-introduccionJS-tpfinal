@@ -25,7 +25,6 @@ header {
     background-color: transparent;
     backdrop-filter: blur(20px);
     display: flex;
-    justify-content: space-between;
     flex-wrap: nowrap;
     align-items: center;
     min-height: 5rem;
@@ -65,7 +64,7 @@ header .navbar {
 
 header .navbar li {
     display: inline-block;
-    padding: 0 20px;
+    padding: 0 1rem;
     border-radius: 32px;
     text-shadow: 0.1em 0.1em 0.3em black;
 }

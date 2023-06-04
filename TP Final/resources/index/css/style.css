@@ -12,7 +12,7 @@ p {
 
 .banner {
     display: block;
-    max-width: 100%;
+    width: 100%;
     height: auto;
     object-fit: cover;
     pointer-events: none;
@@ -21,6 +21,12 @@ p {
     -moz-user-select: none;
     -webkit-user-select: none;
     -ms-user-select: none;
+}
+
+label {
+    color: white;
+    text-shadow: 0.1em 0.1em 0.3em black;
+    pointer-events: none;
 }
 
 header {

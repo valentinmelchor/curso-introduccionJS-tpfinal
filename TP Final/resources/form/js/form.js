@@ -114,7 +114,7 @@ $('#state').change(function () {
 
 var inputValue = '';
 $('#city').on('input', function () {
-    inputValue = $(this).val();
+    inputValue = $(this).val().trim();
     if (inputValue.length >= 4 && !$('#cityList').find('li').length > 0) {
         searchCities_Argentina(inputValue);
     } else if (inputValue.length > 4 && citySearchResult.length > 0) {
@@ -212,13 +212,22 @@ $.ajax(requestSettingsAPI(TIME_BASE_URL + 'ip', '')).done(function (response) {
 $('form').submit(function (e) {
     e.preventDefault();
     if (validateName() && validateUsername() && validateBirthdate() && validateEmail() && validatePassword()) {
+        storeLocalRequiredInfo();
         $('#errorModal')[0].showModal();
         $('#errorStatus').text('Registro exitoso');
         $('#closeErrorModal').text('Volver a Inicio').on('click', function () {
-            window.location.href = '../index.html';
+            window.location.href = './index.html';
         });
-    } else { alert('Datos inválidos, compruebe la información introducida y vuelva a intentar nuevamente.'); }
+    } else {
+        alert('Datos inválidos, compruebe la información introducida y vuelva a intentar nuevamente.');
+    }
 });
+
+function storeLocalRequiredInfo() {
+    localStorage.setItem('name', $('form')[0].elements['name'].value.trim());
+    localStorage.setItem('lastName', $('form')[0].elements['lastName'].value.trim());
+    localStorage.setItem('username', $('form')[0].elements['username'].value.trim());
+}
 
 $('#confirmPassword').on('input focus', function () {
     this.setCustomValidity($(this).val() != $('#password').val() ? 'Ambos campos deben coincidir' : '');
