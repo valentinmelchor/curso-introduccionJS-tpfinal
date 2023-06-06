@@ -101,15 +101,15 @@ label {
     color: white;
 }
 
-fieldset:has(:required)>label::after {
+input:required+label::after {
     content: '*';
     color: tomato;
     font-style: normal;
     margin-left: 0.25ch;
 }
 
-fieldset>input:invalid:focus,
-fieldset:has(:required):has(.failedSubmit)>input:invalid {
+input:invalid:focus,
+input.failedSubmit:invalid {
     outline: 1px solid tomato;
     box-shadow: 0em 0em var(--boxShadowDispersion) var(--invalidColor);
     transition: all 1s;
