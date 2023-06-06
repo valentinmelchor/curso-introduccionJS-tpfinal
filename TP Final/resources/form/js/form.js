@@ -4,12 +4,6 @@ var speed = 0.05;
 var panel = $('.panel')[0];
 var minimumAge = 5, maximumAge = 120;
 
-// Centrar panel de formulario
-function centerPanel() {
-    let temp = ($(window).height() / 2 - $(panel).height() / 2);
-    document.documentElement.style.setProperty("--panelOffset", temp.toFixed(2) + 'px');
-}
-
 // Capturar posicion del mouse relativa al panel y pasarla a porcentaje
 $(document).mousemove(function (e) {
     xPos = parseInt((((e.clientX - rect.left) / rect.width) * 100));
@@ -18,7 +12,6 @@ $(document).mousemove(function (e) {
 
 // Funcion para actualizar propiedades CSS en cada frame renderizado
 function Update() {
-    centerPanel();
     rect = panel.getBoundingClientRect();
     glassHiglightMotion();
 }
@@ -94,19 +87,19 @@ $('#country').change(function () {
     clearCityList('#cityList');
     $('#cityList').val('');
     if ($(this).val() == 'Argentina') {
-        $('#state').closest('fieldset').show();
+        $('#state').closest('fieldset').show('fast');
         loadStates_Argentina();
     } else {
-        $('#state').closest('fieldset').hide();
-        $('#city').closest('fieldset').hide();
+        $('#state').closest('fieldset').hide('fast');
+        $('#city').closest('fieldset').hide('fast');
     }
 });
 
 $('#state').change(function () {
     if ($(this).val() > 0) {
-        $('#city').closest('fieldset').show();
+        $('#city').closest('fieldset').show('fast');
     } else {
-        $('#city').closest('fieldset').hide();
+        $('#city').closest('fieldset').hide('fast');
     }
     clearCityList('#cityList');
     $('#city').val('');
@@ -263,3 +256,12 @@ function validatePassword() {
     let confirmPassword = $('#confirmPassword').val();
     return ((confirmPassword == password) && /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])/.test(password));
 }
+
+// Fix labels con posicion incorrecta
+$(document).ready(function () {
+    $('input').each(function () {
+        if (this.value.length > 0) {
+            $(".animatedLabel[for='" + this.id + "']").css({ 'top': "5%", 'font-size': '0.8em', 'color': 'hsl(0deg, 0%, 75%)', 'font-style': 'italic' });
+        }
+    });
+});

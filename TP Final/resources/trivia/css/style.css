@@ -1,3 +1,8 @@
+:root {
+    --buttonOutlineColor: orange;
+    --radialTimer: conic-gradient(darkslategray 45deg, hsl(0deg, 0%, 5%) 45deg);
+}
+
 header {
     backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, 25%) !important;
@@ -5,7 +10,6 @@ header {
 
 body {
     background-color: darkslategray;
-    overflow: hidden;
 }
 
 main {
@@ -17,7 +21,7 @@ main {
 }
 
 form {
-    width: 40ch;
+    width: min(50ch, 100% - 4rem);
     padding: 1.6rem;
     border-radius: 24px;
     border: 1px solid white;
@@ -36,4 +40,71 @@ label {
 
 form>button {
     width: 100%;
+}
+
+#questionForm>* {
+    margin-block: 0.5rem;
+    font-size: 1.25rem;
+}
+
+#questionForm>button {
+    color: black;
+    background-color: white;
+    min-height: 4ch;
+    max-height: 10ch;
+    padding: 0.5rem;
+    border-radius: 8px;
+    border: none;
+    box-shadow: 0em 0.3em 0em hsl(0deg, 0%, 65%);
+    transition: all 0.1s;
+}
+
+#questionForm>button:enabled:hover {
+    box-shadow: none;
+    animation: borderFadeIn, borderSelectedLoop 0.3s;
+    animation-duration: 0.25s, 1.5s;
+    animation-delay: 0s, 0.25s;
+    animation-timing-function: ease-out, ease-in-out;
+    animation-iteration-count: 1, infinite;
+    transform: translateY(-0.25em);
+}
+
+#questionForm>button:enabled:active {
+    transform: scale(0.95);
+}
+
+.correctAnswer {
+    color: white !important;
+    background-color: hsl(120, 25%, 50%) !important;
+    outline: 3px solid white !important;
+}
+
+.incorrectAnswer {
+    color: white !important;
+    background-color: hsl(0, 25%, 50%) !important;
+    outline: 3px solid white !important;
+}
+
+@keyframes borderFadeIn {
+    from {
+        outline: 10px solid transparent;
+    }
+
+    to {
+        outline: 3px solid var(--buttonOutlineColor);
+    }
+}
+
+@keyframes borderSelectedLoop {
+    0% {
+        outline: 3px solid var(--buttonOutlineColor);
+    }
+
+    50% {
+        outline: 3px solid transparent;
+    }
+
+    100% {
+        outline: 3px solid var(--buttonOutlineColor);
+    }
 }
