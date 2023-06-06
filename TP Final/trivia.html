@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Trivia</title>
+        <link rel="stylesheet" href="resources/trivia/css/style.css">
+        <link rel="stylesheet" href="resources/global/globalStyle.css">
+        <script src="resources/global/jquery-3.7.0.min.js"></script>
+        <script src="resources/trivia/js/trivia_object.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <h1>TP Final</h1>
+                </a>
+            </div>
+            <nav>
+                <ul class="navbar">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li class="sessionRequired"><a href="#">Juegos</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="formB">
+                <a href="#" class="login"><button>Iniciar sesion</button></a>
+                <a href="form.html" class="signup"><button>Registrarse</button></a>
+            </div>
+        </header>
+        <main>
+            <form action="get" id="settings">
+                <fieldset>
+                    <label for="amount">Cantidad de preguntas:</label>
+                    <input type="number" name="amount" id="amount" min="1"
+                        required>
+                </fieldset>
+                <fieldset>
+                    <label for="difficulty">Dificultad:</label>
+                    <select name="difficulty" id="difficulty" required>
+                        <option value="any">Variado</option>
+                        <option value="easy">Facil</option>
+                        <option value="medium">Medio</option>
+                        <option value="hard">Dificil</option>
+                    </select>
+                </fieldset>
+                <button type="submit">Enviar</button>
+            </form>
+        </main>
+        <footer>
+            <script src="resources/global/navbar.js"></script>
+            <script src="resources/trivia/js/trivia.js"></script>
+        </footer>
+    </body>
+</html>
