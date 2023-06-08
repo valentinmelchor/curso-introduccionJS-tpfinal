@@ -1,6 +1,7 @@
-// Encerrar el codigo en una funcion para que no sea accesible desde consola
+// Encerrar la logica del juego en una funcion anonima para que no sea accesible desde consola
 (function () {
     var maxIterations = 100; // Limitar la cantidad de iteraciones al buscar preguntas para prevenir bucles infinitos y tiempos de espera largos
+    var timerDurationSec = 20; // Cantidad de tiempo en segundos disponible para responder
     var timeBetweenQuestionsMS = 3000; // Tiempo a esperar entre preguntas (milisegundos)
     var questionsAnswered = 0;
 
@@ -27,54 +28,65 @@
     let choicesId = ['A', 'B', 'C', 'D'];
     let questions = [];
     let possibleAnswers = [];
-    // let correctAnswer = 'X';
+
     function startTrivia(amount, difficulty) {
         questions = getQuestions(amount, difficulty);
         questionsAnswered = 0;
         nextQuestion();
     }
 
-    function verifyAnswer(answerSelected) {
-        if (possibleAnswers.correctAnswer == answerSelected) {
-            $('#questionForm>button').prop('disabled', true);
-            $('#' + answerSelected).addClass('correctAnswer');
-            setTimeout(nextQuestion, timeBetweenQuestionsMS);
+    function nextQuestion() {
+        if (questionsAnswered > 0) { $('#timer').hide('slow'); }
+        if (questionsAnswered < questions.length) {
+            $('#questionForm').slideUp('slow', function () {
+                $('#questionForm>button').removeClass();
+                $('#questionForm>button').prop('disabled', false);
+                possibleAnswers = shuffleAnswers(questions[questionsAnswered]);
+                $('#question').html(questions[questionsAnswered].question);
+                $('#questionLabel').text('Pregunta ' + (questionsAnswered + 1) + '/' + questions.length);
+                for (let i = 0; i < possibleAnswers.options.length; i++) {
+                    $('#' + choicesId[i]).text(possibleAnswers.options[i]);
+                }
+                $(this).slideDown('slow');
+                startTimer();
+            });
         } else {
-            $('#questionForm>button').prop('disabled', true);
-            $('#' + answerSelected).addClass('incorrectAnswer');
-            setTimeout(nextQuestion, timeBetweenQuestionsMS);
+            console.log('end');
+            // setTimeout(finishTrivia, timeBetweenQuestionsMS);
         }
     }
 
-    function nextQuestion() {
-        $('#questionForm').slideUp('slow', function () {
-            $('#questionForm>button').removeClass();
-            $('#questionForm>button').prop('disabled', false);
+    function verifyAnswer(answerSelected) {
+        stopTimer();
+        questionsAnswered++;
+        $('#questionForm>button').prop('disabled', true);
+        if (answerSelected != possibleAnswers.correctAnswer) {
+            $('#' + answerSelected).addClass('incorrectAnswer');
+        }
+        $('#' + possibleAnswers.correctAnswer).addClass('correctAnswer');
+        setTimeout(nextQuestion, timeBetweenQuestionsMS);
+    }
+
+    function timeoutAnswer() {
+        if (possibleAnswers.correctAnswer != null) {
             questionsAnswered++;
-            possibleAnswers = shuffleAnswers(questions[questionsAnswered]);
-            // correctAnswer = possibleAnswers.correctAnswer;
-            $('#question').html(questions[questionsAnswered].question);
-            for (let i = 0; i < possibleAnswers.options.length; i++) {
-                $('#' + choicesId[i]).text(possibleAnswers.options[i]);
-            }
-            $(this).slideDown('slow')
-        });
+            $('#' + possibleAnswers.correctAnswer).addClass('timeoutAnswer');
+            $('#questionForm>button').prop('disabled', true);
+            setTimeout(nextQuestion, timeBetweenQuestionsMS);
+        }
     }
 
     $('#settings').submit(function (e) {
         e.preventDefault();
         $(this).hide('slow');
         $('#questionForm').show('slow', startTrivia(this.elements.amount.value, this.elements.difficulty.value));
+        $('header>nav, header>.formB').hide('slow', function () {
+            $('.middleFlex, .timerFlex').show('slow');
+        });
     });
 
     $('#questionForm>button').click(function (e) {
-        //verifyAnswer($(this).attr('id'));
-        let answerSelected = $(this).attr('id');
-        verifyAnswer(answerSelected);
-        // $('#questionForm').slideUp('slow', function () {
-        //     verifyAnswer(answerSelected);
-        //     $(this).slideDown('slow')
-        // });
+        verifyAnswer($(this).attr('id'));
     });
 
     // Funciones auxiliares
@@ -96,5 +108,30 @@
             }
         }
         return { options: array, correctAnswer: correctID };
+    }
+
+    var timerFunc;
+    var timer = timerDurationSec;
+    function Timer() {
+        $('#timer').text(timer + '"');
+        if (timer < 6) {
+            $('#timer').addClass('riskZone');
+        }
+        if (--timer < 0) {
+            stopTimer();
+            timeoutAnswer();
+        }
+    }
+
+    function startTimer() {
+        timer = timerDurationSec;
+        timerFunc = setInterval(Timer, 1000);
+        $('#timer').text(timerDurationSec + '"');
+        $('#timer').show('slow');
+    }
+
+    function stopTimer() {
+        $('#timer').removeClass();
+        clearInterval(timerFunc);
     }
 })();
