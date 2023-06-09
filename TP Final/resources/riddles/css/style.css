@@ -11,19 +11,20 @@ header {
 }
 
 main {
-    margin-block: 2em;
+    margin-block: 1em;
 }
 
 #riddles {
     display: grid;
-    width: calc(100% - 4rem);
+    width: calc(100% - 2rem);
     margin-inline: auto;
     gap: 1rem;
     grid-auto-rows: auto;
-    grid-template-columns: repeat(auto-fill, minmax(auto, 45ch));
+    grid-template-columns: repeat(auto-fill, minmax(35ch, 1fr));
 }
 
 section>form {
+    position: relative;
     font-size: 1.1rem;
     border-radius: 8px;
     border: 1px solid gray;
@@ -55,13 +56,20 @@ section>form {
     float: right;
 }
 
+.riddleContent {
+    margin-top: 1ch;
+    margin-bottom: 5ch;
+}
+
 .riddleFooter {
-    position: relative;
+    position: absolute;
+    bottom: 1rem;
+    width: calc(100% - 2rem);
 }
 
 .riddleFooter input {
     font-size: 1.1rem;
-    width: 75%;
+    width: calc(100% - 10ch);
     height: 4ch;
     padding-inline: 1ch;
     border: 2px solid gray;
@@ -71,7 +79,7 @@ section>form {
 .riddleFooter button {
     font-size: 1.1rem;
     position: absolute;
-    width: auto;
+    width: 10ch;
     height: 4ch;
     right: auto;
     padding-inline: 1ch;
