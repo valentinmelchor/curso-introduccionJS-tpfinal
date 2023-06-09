@@ -3,7 +3,9 @@
     var maxIterations = 100; // Limitar la cantidad de iteraciones al buscar preguntas para prevenir bucles infinitos y tiempos de espera largos
     var timerDurationSec = 20; // Cantidad de tiempo en segundos disponible para responder
     var timeBetweenQuestionsMS = 3000; // Tiempo a esperar entre preguntas (milisegundos)
-    var questionsAnswered = 0;
+    var amountCache, difficultyCache; // Almacenar parametros para volver a utilizar al reintentar trivia
+    var questionsAnswered = 0; // Almacenar cantidad de preguntas contestadas para previa verificacion
+    var wrongAnswers = 0; // Almacenar cantidad de respuestas incorrectas para calcular puntuacion
 
     function getQuestions(amount, difficulty) {
         let difficultyFilter = (difficulty != 'any') ? results.filter(question => question.difficulty == difficulty) : results;
@@ -26,19 +28,29 @@
     }
 
     let choicesId = ['A', 'B', 'C', 'D'];
-    let questions = [];
-    let possibleAnswers = [];
+    let questions = []; // Almacenar preguntas obtenidas aleatoriamente para consultarlas en cada refresco de panel
+    let possibleAnswers = []; // Array temporal para previa verificacion
 
     function startTrivia(amount, difficulty) {
         questions = getQuestions(amount, difficulty);
         questionsAnswered = 0;
+        wrongAnswers = 0;
         nextQuestion();
     }
 
+    function finishTrivia() {
+        let score = Math.round(((questions.length - wrongAnswers) / questions.length) * 100);
+        displayStarsScore(score);
+        $('#score>h2').text(score + ' / 100');
+        $('#scorePanel').slideDown('slow');
+    }
+
     function nextQuestion() {
-        if (questionsAnswered > 0) { $('#timer').hide('slow'); }
-        if (questionsAnswered < questions.length) {
-            $('#questionForm').slideUp('slow', function () {
+        if (questionsAnswered > 0) {
+            $('#timer').hide('slow');
+        }
+        $('#questionForm').slideUp('slow', function () {
+            if (questionsAnswered < questions.length) {
                 $('#questionForm>button').removeClass();
                 $('#questionForm>button').prop('disabled', false);
                 possibleAnswers = shuffleAnswers(questions[questionsAnswered]);
@@ -49,11 +61,10 @@
                 }
                 $(this).slideDown('slow');
                 startTimer();
-            });
-        } else {
-            console.log('end');
-            // setTimeout(finishTrivia, timeBetweenQuestionsMS);
-        }
+            } else {
+                finishTrivia();
+            }
+        });
     }
 
     function verifyAnswer(answerSelected) {
@@ -62,31 +73,50 @@
         $('#questionForm>button').prop('disabled', true);
         if (answerSelected != possibleAnswers.correctAnswer) {
             $('#' + answerSelected).addClass('incorrectAnswer');
+            wrongAnswers++;
         }
         $('#' + possibleAnswers.correctAnswer).addClass('correctAnswer');
-        setTimeout(nextQuestion, timeBetweenQuestionsMS);
+        setTimeout(nextQuestion, timeBetweenQuestionsMS); // Mostrar la respuesta correcta durante X tiempo y luego seguir con el juego
     }
 
     function timeoutAnswer() {
         if (possibleAnswers.correctAnswer != null) {
             questionsAnswered++;
+            wrongAnswers++;
             $('#' + possibleAnswers.correctAnswer).addClass('timeoutAnswer');
             $('#questionForm>button').prop('disabled', true);
-            setTimeout(nextQuestion, timeBetweenQuestionsMS);
+            setTimeout(nextQuestion, timeBetweenQuestionsMS); // Mostrar la respuesta correcta durante X tiempo y luego seguir con el juego
         }
     }
 
+    $('#questionForm>button').click(function (e) {
+        verifyAnswer($(this).attr('id'));
+    });
+
     $('#settings').submit(function (e) {
         e.preventDefault();
+        amountCache = this.elements.amount.value;
+        difficultyCache = this.elements.difficulty.value;
         $(this).hide('slow');
-        $('#questionForm').show('slow', startTrivia(this.elements.amount.value, this.elements.difficulty.value));
+        $('#questionForm').show('slow', startTrivia(amountCache, difficultyCache));
         $('header>nav, header>.formB').hide('slow', function () {
             $('.middleFlex, .timerFlex').show('slow');
         });
     });
 
-    $('#questionForm>button').click(function (e) {
-        verifyAnswer($(this).attr('id'));
+    $('#scorePanel').submit(function (e) {
+        e.preventDefault();
+        $(this).hide('slow', startTrivia(amountCache, difficultyCache));
+    })
+
+    $('#settingsButton').click(function () {
+        $('#scorePanel').slideUp('slow', function () {
+            $('#settings').slideDown('slow');
+        })
+    });
+
+    $('#homeButton').click(function () {
+        window.location.href = './index.html';
     });
 
     // Funciones auxiliares
@@ -112,7 +142,7 @@
 
     var timerFunc;
     var timer = timerDurationSec;
-    function Timer() {
+    function Timer() { // Funcion de temporizador, es ejecutada cada 1 segundo desde el momento en el que se inicia
         $('#timer').text(timer + '"');
         if (timer < 6) {
             $('#timer').addClass('riskZone');
@@ -125,7 +155,7 @@
 
     function startTimer() {
         timer = timerDurationSec;
-        timerFunc = setInterval(Timer, 1000);
+        timerFunc = setInterval(Timer, 1000); // Ejecutar cada 1 segundo (1000 ms)
         $('#timer').text(timerDurationSec + '"');
         $('#timer').show('slow');
     }
@@ -133,5 +163,19 @@
     function stopTimer() {
         $('#timer').removeClass();
         clearInterval(timerFunc);
+    }
+
+    function displayStarsScore(score) {
+        $('#stars').empty();
+        let starsScore = score / 20;
+        for (let i = 0; i < 5; i++) {
+            if (starsScore - i > 0.5) {
+                $('#stars').append($('<span class="material-symbols-rounded">').text('star'));
+            } else if (starsScore - i > 0 && starsScore - i <= 0.5) {
+                $('#stars').append($('<span class="material-symbols-rounded">').text('star_half'));
+            } else {
+                $('#stars').append($('<span class="material-symbols-rounded">').css('font-variation-settings', "'FILL' 0").text('star'));
+            }
+        }
     }
 })();

@@ -2,6 +2,14 @@
     --buttonOutlineColor: orange;
 }
 
+.material-symbols-rounded {
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48
+}
+
 header {
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
@@ -61,7 +69,8 @@ form>button {
     font-size: 1.25rem;
 }
 
-#questionForm>button {
+#questionForm>button,
+#scoreButtons>button {
     color: black;
     background-color: white;
     min-height: 4ch;
@@ -83,7 +92,8 @@ form>button {
     transform: translateY(-0.25em);
 }
 
-#questionForm>button:enabled:active {
+#questionForm>button:enabled:active,
+#scoreButtons>button:active {
     transform: scale(0.95);
 }
 
@@ -109,6 +119,38 @@ form>button {
 .riskZone {
     animation: Warning 1s;
     animation-iteration-count: infinite;
+}
+
+#score {
+    margin-bottom: 1ch;
+    text-shadow: 0 3px hsl(0deg, 0%, 8%);
+}
+
+#stars>span {
+    font-size: 2.5rem;
+    color: gold;
+}
+
+#scoreButtons {
+    display: flex;
+    align-content: space-between;
+    align-items: flex-end;
+    gap: 0.5rem;
+    margin: 0 !important;
+}
+
+#scoreButtons>* {
+    flex: 1;
+}
+
+#scoreButtons>button:hover {
+    outline: 3px solid var(--buttonOutlineColor);
+    box-shadow: none;
+}
+
+.triviaButton {
+    color: black;
+    background-color: white;
 }
 
 @keyframes Warning {

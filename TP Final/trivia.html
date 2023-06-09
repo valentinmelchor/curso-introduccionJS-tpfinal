@@ -5,6 +5,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Trivia</title>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <link rel="stylesheet" href="resources/trivia/css/style.css">
         <link rel="stylesheet" href="resources/global/globalStyle.css">
         <script src="resources/global/jquery-3.7.0.min.js"></script>
@@ -37,7 +39,7 @@
             </div>
         </header>
         <main>
-            <form action="get" id="settings">
+            <form action="#" id="settings">
                 <fieldset>
                     <label for="amount">Cantidad de preguntas:</label>
                     <input type="number" name="amount" id="amount" min="1"
@@ -54,12 +56,25 @@
                 </fieldset>
                 <button type="submit">Enviar</button>
             </form>
-            <form action="get" id="questionForm" style="display: none;">
+            <form action="#" id="questionForm" style="display: none;">
                 <p id="question">Pregunta</p>
                 <button type="button" id="A">Opción A</button>
                 <button type="button" id="B">Opción B</button>
                 <button type="button" id="C">Opción C</button>
                 <button type="button" id="D">Opción D</button>
+            </form>
+            <form action="#" id="scorePanel" style="display: none;">
+                <div id="score">
+                    <h1>Puntuación</h1>
+                    <h2>70 / 100</h2>
+                    <div id="stars">
+                    </div>
+                </div>
+                <fieldset id="scoreButtons">
+                    <button type="button" id="settingsButton">Volver</button>
+                    <button type="submit">Reiniciar</button>
+                    <button type="button" id="homeButton">Inicio</button>
+                </fieldset>
             </form>
         </main>
         <footer>
