@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Adivinanzas</title>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link rel="stylesheet" href="resources/riddles/css/style.css">
+        <link rel="stylesheet" href="resources/global/globalStyle.css">
+        <script src="resources/global/jquery-3.7.0.min.js"></script>
+    </head>
+    <body>
+        <header>
+            <div class="logo">
+                <a href="index.html">
+                    <h1>TP Final</h1>
+                </a>
+            </div>
+            <nav>
+                <ul class="navbar">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li class="sessionRequired"><a href="#">Juegos</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="formB">
+                <a href="#" class="login"><button>Iniciar sesion</button></a>
+                <a href="form.html" class="signup"><button>Registrarse</button></a>
+            </div>
+            <div class="middleFlex" style="display: none;">
+                <h2 id="categoryLabel">Conocimiento general</h2>
+                <h3 id="questionLabel">Pregunta 1</h3>
+            </div>
+            <div class="timerFlex" style="display: none;">
+                <h1 id="timer">30"</h1>
+            </div>
+        </header>
+        <main>
+            <section id="riddles">
+                <form action="#">
+                    <div class="riddleHeader">
+                        <h2 class="riddleTitle">Primera adivinanza</h2>
+                        <button type="button" class="clue">Pista<span
+                                class="material-symbols-rounded">
+                                mystery</span></button>
+                    </div>
+                    <div class="riddleContent">
+                        <p>Cinco hermanos muy unidos que no se pueden mirar,
+                            cuando
+                            riñen aunque quieras no los puedes separar.</p>
+                    </div>
+                    <div class="riddleFooter">
+                        <input type="text" name="answer" id="1">
+                        <button type="submit">Verificar</button>
+                    </div>
+                </form>
+                <form action="#">
+                    <div class="riddleHeader">
+                        <h2 class="riddleTitle">Segunda adivinanza</h2>
+                        <button type="button" class="clue">Pista<span
+                                class="material-symbols-rounded">
+                                mystery</span></button>
+                    </div>
+                    <div class="riddleContent">
+                        <p>Soy animal en el campo, soy pintura en la ciudad y mi
+                            nombre como dice Braulio en esta calle esta.</p>
+                    </div>
+                    <div class="riddleFooter">
+                        <input type="text" name="answer" id="2">
+                        <button type="submit">Verificar</button>
+                    </div>
+                </form>
+                <form action="#">
+                    <div class="riddleHeader">
+                        <h2 class="riddleTitle">Tercera adivinanza</h2>
+                        <button type="button" class="clue">Pista<span
+                                class="material-symbols-rounded">
+                                mystery</span></button>
+                    </div>
+                    <div class="riddleContent">
+                        <p>Si me nombras desaparezco, ¿quien soy?</p>
+                    </div>
+                    <div class="riddleFooter">
+                        <input type="text" name="answer" id="3">
+                        <button type="submit">Verificar</button>
+                    </div>
+                </form>
+                <form action="#">
+                    <div class="riddleHeader">
+                        <h2 class="riddleTitle">Cuarta adivinanza</h2>
+                        <button type="button" class="clue">Pista<span
+                                class="material-symbols-rounded">
+                                mystery</span></button>
+                    </div>
+                    <div class="riddleContent">
+                        <p>Iba una vaca de lado, luego resultó pescado.</p>
+                    </div>
+                    <div class="riddleFooter">
+                        <input type="text" name="answer" id="4">
+                        <button type="submit">Verificar</button>
+                    </div>
+                </form>
+                <form action="#">
+                    <div class="riddleHeader">
+                        <h2 class="riddleTitle">Quinta adivinanza</h2>
+                        <button type="button" class="clue">Pista<span
+                                class="material-symbols-rounded">
+                                mystery</span></button>
+                    </div>
+                    <div class="riddleContent">
+                        <p>Desde el lunes hasta el viernes, soy la última en
+                            llegar,
+                            el sábado soy la primera y el domingo a descansar.</p>
+                    </div>
+                    <div class="riddleFooter">
+                        <input type="text" name="answer" id="5">
+                        <button type="submit">Verificar</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+        <footer>
+            <script src="resources/riddles/js/riddles.js"></script>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,83 @@
+.material-symbols-rounded {
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 200,
+        'GRAD' 200,
+        'opsz' 24
+}
+
+header {
+    position: relative !important;
+}
+
+main {
+    margin-block: 2em;
+}
+
+#riddles {
+    display: grid;
+    width: calc(100% - 4rem);
+    margin-inline: auto;
+    gap: 1rem;
+    grid-auto-rows: auto;
+    grid-template-columns: repeat(auto-fill, minmax(auto, 45ch));
+}
+
+section>form {
+    font-size: 1.1rem;
+    border-radius: 8px;
+    border: 1px solid gray;
+    padding: 1rem;
+    overflow-y: auto;
+}
+
+.riddleHeader {
+    display: flex;
+}
+
+.riddleTitle {
+    flex: 1 1 70%;
+}
+
+.clue {
+    flex: 1 1 30%;
+    font-size: 1.1rem;
+    max-height: 4ch;
+    padding-inline: 1ch;
+    border-radius: 24px;
+    border: 2px solid hsl(0deg, 0%, 25%);
+    background-color: rgba(0, 0, 0, 50%);
+    color: white;
+}
+
+.clue span {
+    vertical-align: middle;
+    float: right;
+}
+
+.riddleFooter {
+    position: relative;
+}
+
+.riddleFooter input {
+    font-size: 1.1rem;
+    width: 75%;
+    height: 4ch;
+    padding-inline: 1ch;
+    border: 2px solid gray;
+    border-radius: 16px 0px 0px 16px;
+}
+
+.riddleFooter button {
+    font-size: 1.1rem;
+    position: absolute;
+    width: auto;
+    height: 4ch;
+    right: auto;
+    padding-inline: 1ch;
+    border: 2px solid gray;
+    border-left-width: 0;
+    border-radius: 0px 16px 16px 0px;
+    background-color: rgba(0, 0, 0, 10%);
+    cursor: pointer;
+}

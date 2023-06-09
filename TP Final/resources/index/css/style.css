@@ -1,11 +1,9 @@
 body {
-    background-color: hsl(0deg, 0%, 8%);
     overflow-x: hidden;
 }
 
 p {
     width: min(65ch, 100% - 4rem);
-    color: white;
     margin-inline: auto;
     margin-block: 1.65rem;
 }
