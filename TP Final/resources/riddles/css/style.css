@@ -1,3 +1,9 @@
+:root {
+    --panelWidth: min(40ch, 100% - 1rem);
+    --gridColumns: 2;
+    --gridGap: 2rem;
+}
+
 .material-symbols-rounded {
     font-variation-settings:
         'FILL' 1,
@@ -16,12 +22,13 @@ main {
 }
 
 #riddles {
+    width: min(calc(var(--panelWidth) * var(--gridColumns) + var(--gridGap)), 100% - 1rem) !important;
     display: grid;
-    width: calc(100% - 2rem);
     margin-inline: auto;
-    gap: 1rem;
     grid-auto-rows: auto;
-    grid-template-columns: repeat(auto-fill, minmax(35ch, 1fr));
+    justify-content: center;
+    gap: var(--gridGap);
+    grid-template-columns: repeat(auto-fill, var(--panelWidth));
 }
 
 section>form {
@@ -31,7 +38,7 @@ section>form {
     border: 1px solid gray;
     padding: 1rem;
     overflow-y: auto;
-    box-shadow: 0 0 1em black;
+    box-shadow: black -8px 8px;
 }
 
 .riddleHeader {
@@ -50,6 +57,7 @@ section>form {
     border-radius: 24px;
     border: 2px solid hsl(0deg, 0%, 25%);
     background-color: rgba(0, 0, 0, 50%);
+    text-shadow: black 0 0 2px;
     color: white;
 }
 
