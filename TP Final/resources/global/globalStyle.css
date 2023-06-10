@@ -28,7 +28,6 @@ header {
     padding: 5px 10%;
     top: 0px;
     left: 0px;
-    overflow: hidden;
     position: sticky;
     width: 100%;
     z-index: 50;
@@ -98,4 +97,49 @@ header button:hover {
     color: white;
     transform: scale(1.1);
     box-shadow: 0em 0.3em 1em rgb(0, 0, 0, 50%);
+}
+
+li {
+    position: relative;
+}
+
+:is(#gameLi:hover) #games {
+    display: flex !important;
+}
+
+#games {
+    display: none;
+    width: auto;
+    gap: 1rem;
+    height: calc(48px + 2.4rem);
+    position: absolute;
+    background-color: rgba(0, 0, 0, 50%);
+    border: 2px solid rgba(255, 255, 255, 50%);
+    padding-block: 0.5rem;
+    padding-inline: 1rem;
+    border-radius: 24px;
+    left: 0;
+}
+
+#games img {
+    margin: auto;
+    margin-top: 0;
+    cursor: pointer;
+}
+
+#games label {
+    color: white;
+    font-size: 0.9rem;
+    position: absolute;
+    text-align: center;
+    width: 48px;
+    bottom: 0.4rem;
+}
+
+#games label:nth-of-type(1) {
+    left: 1rem;
+}
+
+#games label:nth-of-type(2) {
+    right: 1.25rem;
 }

@@ -11,4 +11,12 @@ $(document).ready(function () {
     } else {
         $('.sessionRequired').remove();
     }
+
+    $('#triviaRef').click(function () {
+        window.location.href = './trivia.html';
+    });
+
+    $('#riddlesRef').click(function () {
+        window.location.href = './riddles.html';
+    });
 });

@@ -69,8 +69,7 @@ form>button {
     font-size: 1.25rem;
 }
 
-#questionForm>button,
-#scoreButtons>button {
+button {
     color: black;
     background-color: white;
     min-height: 4ch;
@@ -93,7 +92,8 @@ form>button {
 }
 
 #questionForm>button:enabled:active,
-#scoreButtons>button:active {
+#scoreButtons>button:active,
+#settings button:active {
     transform: scale(0.95);
 }
 

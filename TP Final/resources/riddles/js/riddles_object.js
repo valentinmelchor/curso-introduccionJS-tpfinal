@@ -5,7 +5,7 @@ var riddles = [
         clue: 'Los tenemos en las manos',
         displaySolution: 'Los dedos',
         solutions: [
-            'dedos'
+            'dedo'
         ]
     },
     {

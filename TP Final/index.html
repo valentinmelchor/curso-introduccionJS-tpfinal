@@ -19,7 +19,20 @@
             <nav>
                 <ul class="navbar">
                     <li><a href="#">Inicio</a></li>
-                    <li class="sessionRequired"><a href="trivia.html">Juegos</a></li>
+                    <!-- <li class="sessionRequired"><a href="trivia.html">Juegos</a></li> -->
+                    <li id="gameLi"><a href="#">Juegos</a>
+                        <div id="games">
+                            <label for="trivia">Trivia</label>
+                            <img src="resources/trivia/favicon64.png"
+                                name="trivia" width="48" height="48"
+                                alt="Trivia" id="triviaRef">
+                            <label for="trivia" class="sessionRequired">Acertijos</label>
+                            <img src="resources/riddles/favicon64.png"
+                                name="riddles" width="48" height="48"
+                                alt="Acertijos" id="riddlesRef"
+                                class="sessionRequired">
+                        </div>
+                    </li>
                     <li><a href="#">Contacto</a></li>
                 </ul>
             </nav>
