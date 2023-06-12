@@ -1,5 +1,7 @@
 :root {
     --buttonOutlineColor: orange;
+    --cardShadowColor: rgba(0, 0, 0, 85%);
+    --cardBorderColor: rgba(255, 255, 255, 50%);
 }
 
 .material-symbols-rounded {
@@ -11,14 +13,13 @@
 }
 
 header {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
     background-color: rgba(0, 0, 0, 25%) !important;
 }
 
 .middleFlex {
     flex: 1 1 80%;
     text-align: center;
+    color: white;
 }
 
 .timerFlex {
@@ -31,7 +32,8 @@ header {
 }
 
 body {
-    background-color: darkslategray;
+    background-color: hsl(240, 10%, 12%);
+    transition: background-color 1s;
 }
 
 main {
@@ -45,8 +47,8 @@ main {
 form {
     width: min(50ch, 100% - 4rem);
     padding: 1.6rem;
-    border-radius: 24px;
-    border: 2px solid white;
+    border-radius: 32px;
+    border: 2px solid rgba(255, 255, 255, 75%);
     background-color: rgba(0, 0, 0, 25%);
     text-align: center;
 }
@@ -64,12 +66,24 @@ form>button {
     width: 100%;
 }
 
+#settings {
+    box-shadow: 0 -20px 0 -10px var(--cardShadowColor),
+        0 -20px 0 -8px var(--cardBorderColor),
+        0 -40px 0 -20px var(--cardShadowColor),
+        0 -40px 0 -18px var(--cardBorderColor);
+    transition: box-shadow 1s;
+    animation: settingsCards 1s;
+}
+
 #questionForm>* {
     margin-block: 0.5rem;
     font-size: 1.25rem;
+    color: white;
 }
 
-button {
+#questionForm>button,
+#settings>button,
+#scoreButtons>button {
     color: black;
     background-color: white;
     min-height: 4ch;
@@ -122,6 +136,7 @@ button {
 }
 
 #score {
+    color: white;
     margin-bottom: 1ch;
     text-shadow: 0 3px hsl(0deg, 0%, 8%);
 }
@@ -188,5 +203,18 @@ button {
 
     100% {
         outline: 3px solid var(--buttonOutlineColor);
+    }
+}
+
+@keyframes settingsCards {
+    from {
+        box-shadow: none;
+    }
+
+    to {
+        box-shadow: 0 -20px 0 -10px var(--cardShadowColor),
+            0 -20px 0 -8px var(--cardBorderColor),
+            0 -40px 0 -20px var(--cardShadowColor),
+            0 -40px 0 -18px var(--cardBorderColor);
     }
 }

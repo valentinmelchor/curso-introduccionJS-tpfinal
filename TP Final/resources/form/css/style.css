@@ -30,6 +30,8 @@ main {
 }
 
 header {
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     box-shadow: 0em 0.3em 2em rgba(0, 0, 0, 75%) !important;
 }
 
@@ -38,9 +40,9 @@ header {
 }
 
 .glass {
-    background-image: var(--glassHighlightGradient);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    background: var(--glassHighlightGradient);
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
     background-clip: padding-box;
 }
 

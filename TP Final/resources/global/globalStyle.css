@@ -17,8 +17,6 @@ a {
 
 header {
     background-color: transparent;
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
     display: flex;
     flex-wrap: nowrap;
     align-items: center;

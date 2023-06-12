@@ -7,6 +7,7 @@
     var questionsAnswered = 0; // Almacenar cantidad de preguntas contestadas para previa verificacion
     var wrongAnswers = 0; // Almacenar cantidad de respuestas incorrectas para calcular puntuacion
 
+    // Funcion que retorna x cantidad de preguntas con la dificultad seleccionada
     function getQuestions(amount, difficulty) {
         let difficultyFilter = (difficulty != 'any') ? results.filter(question => question.difficulty == difficulty) : results;
         if (amount >= difficultyFilter.length) {
@@ -31,20 +32,25 @@
     let questions = []; // Almacenar preguntas obtenidas aleatoriamente para consultarlas en cada refresco de panel
     let possibleAnswers = []; // Array temporal para previa verificacion
 
+    // Iniciar trivia
     function startTrivia(amount, difficulty) {
         questions = getQuestions(amount, difficulty);
         questionsAnswered = 0;
         wrongAnswers = 0;
         nextQuestion();
+        $('body').css('background-color', 'darkslategray');
     }
 
+    // Terminar trivia mostrando el panel de puntuacion
     function finishTrivia() {
         let score = Math.round(((questions.length - wrongAnswers) / questions.length) * 100);
         displayStarsScore(score);
         $('#score>h2').text(score + ' / 100');
         $('#scorePanel').slideDown('slow');
+        $('body').css('background-color', 'hsl(240, 10%, 12%)');
     }
 
+    // 'Siguiente pregunta' mezcla las respuestas en un orden aleatorio, muestra la pregunta en pantalla e inicia el contador.
     function nextQuestion() {
         if (questionsAnswered > 0) {
             $('#timer').hide('slow');
@@ -67,6 +73,7 @@
         });
     }
 
+    // 'Verificar respuesta' para el contador, inhabilita los botones y muestra la respuesta correcta/incorrecta
     function verifyAnswer(answerSelected) {
         stopTimer();
         questionsAnswered++;
@@ -79,6 +86,7 @@
         setTimeout(nextQuestion, timeBetweenQuestionsMS); // Mostrar la respuesta correcta durante X tiempo y luego seguir con el juego
     }
 
+    // Esta funcion es llamada cuando se agota el contador y se muestra la respuesta correcta en naranja, ningun punto es sumado.
     function timeoutAnswer() {
         if (possibleAnswers.correctAnswer != null) {
             questionsAnswered++;
@@ -89,10 +97,12 @@
         }
     }
 
+    // Verificar respuesta al hacer click en una opcion
     $('#questionForm>button').click(function (e) {
         verifyAnswer($(this).attr('id'));
     });
 
+    // Iniciar trivia al ajustar los parametros
     $('#settings').submit(function (e) {
         e.preventDefault();
         amountCache = this.elements.amount.value;
@@ -104,26 +114,31 @@
         });
     });
 
+    // Reiniciar trivia con el boton 'Reiniciar' que se muestra en el panel de puntuacion
     $('#scorePanel').submit(function (e) {
         e.preventDefault();
         $(this).hide('slow', startTrivia(amountCache, difficultyCache));
     })
 
+    // Mostrar panel de parametros con el boton 'Volver' que se muestra en el panel de puntuacion
     $('#settingsButton').click(function () {
         $('#scorePanel').slideUp('slow', function () {
             $('#settings').slideDown('slow');
         })
     });
 
+    // Volver al inicio (indice) con el boton 'Inicio' que se muestra en el panel de puntuacion
     $('#homeButton').click(function () {
         window.location.href = './index.html';
     });
 
-    // Funciones auxiliares
+    /* Funciones auxiliares | No tan importantes */
+    // Retorna un valor aleatorio en el rango determinado
     function randomRange(min, max) {
         return Math.floor(Math.random() * (max - min) + min);
     }
 
+    // Mezclar respuestas de un objeto pregunta en orden aleatorio para que la respuesta correcta no este siempre en la misma posicion
     function shuffleAnswers(question) {
         let array = [];
         let randomIndex = randomRange(0, 4);
@@ -140,9 +155,10 @@
         return { options: array, correctAnswer: correctID };
     }
 
-    var timerFunc;
-    var timer = timerDurationSec;
-    function Timer() { // Funcion de temporizador, es ejecutada cada 1 segundo desde el momento en el que se inicia
+    var timerInstance; // Instancia de la funcion Timer almacenada en variable para frenarla en cualquier contexto
+    var timer = timerDurationSec; // Establecer variable bandera
+    // Funcion de temporizador, es ejecutada cada 1 segundo desde el momento en el que se inicia
+    function Timer() {
         $('#timer').text(timer + '"');
         if (timer < 6) {
             $('#timer').addClass('riskZone');
@@ -153,18 +169,21 @@
         }
     }
 
+    // Iniciar temporizador
     function startTimer() {
         timer = timerDurationSec;
-        timerFunc = setInterval(Timer, 1000); // Ejecutar cada 1 segundo (1000 ms)
+        timerInstance = setInterval(Timer, 1000); // Ejecutar cada 1 segundo (1000 ms)
         $('#timer').text(timerDurationSec + '"');
         $('#timer').show('slow');
     }
 
+    // Frenar temporizador
     function stopTimer() {
         $('#timer').removeClass();
-        clearInterval(timerFunc);
+        clearInterval(timerInstance);
     }
 
+    // Mostrar puntuacion en forma de estrellas y limpiar la puntuacion anterior
     function displayStarsScore(score) {
         $('#stars').empty();
         let starsScore = score / 20;

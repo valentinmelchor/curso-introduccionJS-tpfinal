@@ -28,6 +28,8 @@ label {
 }
 
 header {
+    -webkit-backdrop-filter: blur(15px);
+    backdrop-filter: blur(15px);
     position: fixed !important;
     transition: all 0.3s;
 }
